@@ -25,13 +25,6 @@ st.title("1 - Main Idea of my project")
 st.text("I read the 2020 data set, I want to mention that I took 10 000 lines of the csv document,""\n""I do the same with 2016.")
 
 
-#creer la connexion avec le dataset :
-df_2020 = pd.read_csv("full_2020_reduit.csv")[:10000]
-"\n" 
-df_2016 = pd.read_csv("full_2016_reduit.csv")[:10000]
-
-
-
 #fuction that calculate the % of NAN values in the dataset : if it's more that 75% we drop them ! 
 def droping_the_NAN(df):
     new_df= df
