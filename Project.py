@@ -47,6 +47,10 @@ def droping_the_NAN(df):
             col_to_drop.append(col)
     return df.drop(col_to_drop, axis=1, inplace=True)
 
+def drop_dataNA(dfa):
+    dfa = dfa.dropna()
+    return dfa
+
 #the columns to drop because of there 75% of NAN values :
 def col_to_drop(df):
     droping_the_NAN(df)
