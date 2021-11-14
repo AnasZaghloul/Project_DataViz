@@ -32,7 +32,7 @@ data_url_2016 = 'https://jtellier.fr/DataViz/full_2016.csv'
 
 
 def load_data(url):
-    df = pd.read_csv(url, low_memory=False, nrows = 400000)
+    df = pd.read_csv(url, low_memory=False, nrows = 300000)
     return df
 
 #fuction that calculate the % of NAN values in the dataset : if it's more that 75% we drop them ! 
