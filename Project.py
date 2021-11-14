@@ -97,10 +97,7 @@ def ValeurF_NombrePP(df):
     return trans
 
 # Type local = Maison (Real Estate) _ Code Departement
-def ValeurF_CodeP(df):
-    trans = df.groupby('code_departement')['type_local=Appartement'].sum().reset_index().sort_values('type_local=Appartement', ascending=False).head(20)
-    trans = trans.rename(columns={'type_local=Appartement': 'sum'})
-    return trans
+#a ajouter
 
 ############################################################################################################
 
