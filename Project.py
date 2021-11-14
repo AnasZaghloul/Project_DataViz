@@ -32,12 +32,10 @@ data_url_2016 = 'https://jtellier.fr/DataViz/full_2016.csv'
 data_url_2018 = 'https://jtellier.fr/DataViz/full_2018.csv'
 data_url_2019 = 'https://jtellier.fr/DataViz/full_2019.csv'
 
-@st.cache(allow_output_mutation=True)
 def load_data(url):
     df = pd.read_csv(url, low_memory=False, nrows = 300000)
     return df
 
-@st.cache(allow_output_mutation=True)
 
 #fuction that calculate the % of NAN values in the dataset : if it's more that 75% we drop them ! 
 def droping_the_NAN(df):
@@ -50,26 +48,23 @@ def droping_the_NAN(df):
         if missing > 75:
             col_to_drop.append(col)
     return df.drop(col_to_drop, axis=1, inplace=True)
-@st.cache(allow_output_mutation=True)
+
 def drop_dataNA(dfa):
     dfa = dfa.dropna()
     return dfa
 
 #the columns to drop because of there 75% of NAN values :
-@st.cache(allow_output_mutation=True)
 def col_to_drop(df):
     droping_the_NAN(df)
     return col_to_drop
 
 #Now let's Drop these columns with this fuction !
-@st.cache(allow_output_mutation=True)
 def drop_the_col(df_nan):
     df_nan = df_nan.dropna(how="all")
     return df_nan
 
 
 #Now let's drop the duplicated values :
-@st.cache(allow_output_mutation=True)
 def duplicated_values(df):
     #let's the number of duplicated values:
     st.write("the duplicated values = '",df.duplicated().sum())
@@ -80,14 +75,12 @@ def duplicated_values(df):
     st.write("\n")
     return df
 
-@st.cache(allow_output_mutation=True)
 def corrmat(df):
     return df.corr()
 
 ############# fonction pour le traitement des vizuels : 
 
 #valeur foncière_ Code_departement:
-@st.cache(allow_output_mutation=True)
 
 def ValeurF_CodeP(df):
     trans = df.groupby('code_departement')['valeur_fonciere'].sum().reset_index().sort_values('valeur_fonciere', ascending=False).head(20)
@@ -95,7 +88,6 @@ def ValeurF_CodeP(df):
     return trans
 
 #Valeur Foncière _ nature culture
-@st.cache(allow_output_mutation=True)
 
 def ValeurF_NatureC(df):
     trans = df.groupby('nature_culture')['valeur_fonciere'].sum().reset_index().sort_values('valeur_fonciere', ascending=False).head(6)
@@ -104,7 +96,6 @@ def ValeurF_NatureC(df):
 
 
 #Valeur Foncière _ Nb pièces
-@st.cache(allow_output_mutation=True)
 
 def ValeurF_NombrePP(df):
     trans = df.groupby('nombre_pieces_principales')['valeur_fonciere'].sum().reset_index().sort_values('valeur_fonciere', ascending=False).head(6)
@@ -112,7 +103,6 @@ def ValeurF_NombrePP(df):
     return trans
 
 #Surface _ Code Departement
-@st.cache(allow_output_mutation=True)
 
 def transform_Codp_Surface(df):
     nature = df.groupby('code_commune')['surface_terrain'].sum().reset_index().sort_values('surface_terrain', ascending=False).head(20)
