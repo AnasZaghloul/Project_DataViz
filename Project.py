@@ -32,7 +32,7 @@ data_url_2016 = 'https://jtellier.fr/DataViz/full_2016.csv'
 
 
 def load_data(url):
-    df = pd.read_csv(url, low_memory=False, nrows = 100000)
+    df = pd.read_csv(url, low_memory=False, nrows = 800000)
     return df
 
 #fuction that calculate the % of NAN values in the dataset : if it's more that 75% we drop them ! 
@@ -110,8 +110,8 @@ if option == "2020":
     st.title("2. Data Traitment")
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
-    df_2020=load_data(data_url_2020)
-    #df_2020=pd.read_csv('https://jtellier.fr/DataViz/full_2016.csv')
+    #df_2020=load_data(data_url_2020)
+    df_2020=pd.read_csv("full_2020_reduit.csv")[:10000]
     df_2020
 
     st.write(df_2020.head(20))
@@ -120,7 +120,7 @@ if option == "2020":
     st.markdown("Calculation of the percentage (%) of the NAN values in the Dataset")
     
     #to see the heatmap of the (%) values NAN :
-    st.write("Heatmap NAN Values :")
+    st.write("Heatmap NAN Values : (before the transformation of our dataset)")
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
     sns.heatmap(df_2020.isnull(), yticklabels = False, cbar = False)
@@ -128,22 +128,45 @@ if option == "2020":
     st.write("\n")
     st.write("the percentage (%) of the NAN values in the Dataset :")
 
-    df_2020=col_to_drop(df_2020)
-    df_2020=drop_the_col(df_2020)
+    droping_the_NAN(df_2020)
+    df_2020=drop_dataNA(df_2020)
     st.write("\n")
     df_2020=duplicated_values(df_2020)
 
     #traitement du type : 
-    df_2020['code_departement'] = df_2020['code_departement'].astype('object')
-    df_2020['code_commune'] = df_2020['code_commune'].astype('object')
-    df_2020['nombre_lots'] = df_2020['nombre_lots'].astype('float64')
-    df_2020['latitude'] = pd.to_numeric(df_2020['latitude'])
-    df_2020['longitude'] = pd.to_numeric(df_2020['longitude'])
-    df_2020['lot1_numero'] = df_2020['lot1_numero'].astype('object')
+    #df_2020['lot1_numero'] = df_2020['lot1_numero'].astype('object')
     df_2020['code_postal'] = df_2020['code_postal'].astype('object')
     df_2020['code_type_local'] = df_2020['code_type_local'].astype('object')
     df_2020['type_local'] = df_2020['type_local'].astype('object')
     df_2020['nombre_pieces_principales'] = df_2020['nombre_pieces_principales'].astype(
     'object')
+    df_2020['code_departement'] = df_2020['code_departement'].astype('object')
+    df_2020['code_commune'] = df_2020['code_commune'].astype('object')
+    df_2020['nombre_lots'] = df_2020['nombre_lots'].astype('float64')
+    df_2020['latitude'] = pd.to_numeric(df_2020['latitude'])
+    df_2020['longitude'] = pd.to_numeric(df_2020['longitude'])
+
+    st.markdown("Maintenant aprés la supression  :")
+    st.write("- Des valeurs des colonnes à 75% valeurs NAN")
+    st.write("- Des doublons")
+    st.write(df_2020.astype(object))
+    #to see the heatmap of the (%) values with NAN values :
+    st.write("Heatmap NAN Values : ( before the transformation of our dataset")
+
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    sns.heatmap(df_2020.isnull(), yticklabels=False, cbar=False)
+    st.pyplot()
+
+    #partie traitement des données : 
+
+    st.title("Data Visualization")
+
+    st.markdown("Valeur foncière ET Code Du Département :")
+
+    #valeur foncière_ Code_departement:
+    transform_Codep_ValF(df_2020).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
+    st.pyplot()
+
+    
 
     
