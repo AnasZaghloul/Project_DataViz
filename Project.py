@@ -101,6 +101,7 @@ if option == "2020":
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
     df_2020=pd.read_csv('https://jtellier.fr/DataViz/full_2016.csv')
+    
     st.write(df_2020.head(20))
     df_2020.head(5)
     st.header("2.2 - Cleaning The Database")
