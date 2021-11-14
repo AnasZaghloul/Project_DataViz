@@ -286,3 +286,89 @@ elif option == "2016":
         st.header("Matrice de corrélation")
         sns.heatmap(corrmat(df_2016), vmax=.9, square=True) 
         st.pyplot()
+        
+   ###2018
+
+elif option == "2018":
+    st.title("2. Data Traitment")
+    st.header("2.1 - Loading The Data")
+    #loading the data using this methode
+    df_2018=load_data(data_url_2018)
+
+    st.write(df_2018.head(20))
+    df_2018.head(5)
+    st.header("2.2 - Cleaning The Database")
+    st.markdown("Calculation of the percentage (%) of the NAN values in the Dataset")
+    
+    #to see the heatmap of the (%) values NAN :
+    st.write("Heatmap NAN Values : (before the transformation of our dataset)")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+
+    sns.heatmap(df_2018.isnull(), yticklabels = False, cbar = False)
+    st.pyplot()
+    st.write("\n")
+    st.write("the percentage (%) of the NAN values in the Dataset :")
+
+    droping_the_NAN(df_2018)
+    df_2018=drop_dataNA(df_2018)
+    st.write("\n")
+    df_2018=duplicated_values(df_2018)
+
+    #traitement du type : 
+    df_2018['code_postal'] = df_2018['code_postal'].astype('object')
+    df_2018['code_type_local'] = df_2018['code_type_local'].astype('object')
+    df_2018['type_local'] = df_2018['type_local'].astype('object')
+    df_2018['nombre_pieces_principales'] = df_2018['nombre_pieces_principales'].astype(
+    'object')
+    df_2018['code_departement'] = df_2018['code_departement'].astype('object')
+    df_2018['code_commune'] = df_2018['code_commune'].astype('object')
+    df_2018['nombre_lots'] = df_2018['nombre_lots'].astype('float64')
+    df_2018['latitude'] = pd.to_numeric(df_2018['latitude'])
+    df_2018['longitude'] = pd.to_numeric(df_2018['longitude'])
+
+    st.markdown("Maintenant aprés la supression  :")
+    st.write("- Des valeurs des colonnes à 75% valeurs NAN")
+    st.write("- Des doublons")
+    st.write(df_2018.astype(object))
+    #to see the heatmap of the (%) values with NAN values :
+    st.write("Heatmap NAN Values : ( before the transformation of our dataset")
+
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    sns.heatmap(df_2018.isnull(), yticklabels=False, cbar=False)
+    st.pyplot()
+
+    #partie traitement des données : 
+
+    st.title("Data Visualization")
+
+    st.markdown("1. Valeur foncière ET Code Du Département :")
+
+    #valeur foncière_ Code_departement:
+    ValeurF_CodeP(df_2018).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
+    st.pyplot()
+
+    
+    st.markdown("2 .Nature culture et valuer foncière :")
+
+
+    ValeurF_NatureC(df_2018).plot.bar(x="nature_culture", y="sum")
+    st.pyplot()
+
+
+    st.markdown("3 .Nature culture et valuer foncière :")
+    #Valeur Foncière _ Nb pièces
+    ValeurF_NombrePP(df_2018).plot.bar(x="nombre_pieces_principales", y="sum")
+    st.pyplot()
+
+    
+
+    #code postal _ Surface :
+    transform_Codp_Surface(df_2018).plot.bar(x='code_commune', y='sum', color=['orange', 'green'])
+    st.pyplot()
+
+    if st.checkbox("Please click to see the corr matrice "):
+        #matrice corr : 
+        st.header("Matrice de corrélation : ")
+        sns.heatmap(corrmat(df_2018), vmax=.9, square=True) 
+        st.pyplot()
+        
