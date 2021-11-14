@@ -25,6 +25,16 @@ st.title("1 - Main Idea of my project")
 st.text("I read the 2020 data set, I want to mention that I took 10 000 lines of the csv document,""\n""I do the same with 2016.")
 
 
+
+
+data_url_2020 = 'https://jtellier.fr/DataViz/full_2020.csv'
+data_url_2016 = 'https://jtellier.fr/DataViz/full_2016.csv'
+
+
+def load_data(url):
+    df = pd.read_csv(url, low_memory=False, nrows = 100000)
+    return df
+
 #fuction that calculate the % of NAN values in the dataset : if it's more that 75% we drop them ! 
 def droping_the_NAN(df):
     new_df= df
@@ -100,8 +110,10 @@ if option == "2020":
     st.title("2. Data Traitment")
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
-    df_2020=pd.read_csv("https://jtellier.fr/DataViz/full_2016.csv")
-    
+    df_2020=load_data(data_url_2020)
+    #df_2020=pd.read_csv('https://jtellier.fr/DataViz/full_2016.csv')
+    df_2020
+
     st.write(df_2020.head(20))
     df_2020.head(5)
     st.header("2.2 - Cleaning The Database")
@@ -109,11 +121,29 @@ if option == "2020":
     
     #to see the heatmap of the (%) values NAN :
     st.write("Heatmap NAN Values :")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+
     sns.heatmap(df_2020.isnull(), yticklabels = False, cbar = False)
     st.pyplot()
     st.write("\n")
     st.write("the percentage (%) of the NAN values in the Dataset :")
-    df_2020=droping_the_NAN(df_2020)
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+
+    df_2020=col_to_drop(df_2020)
+    df_2020=drop_the_col(df_2020)
+    st.write("\n")
+    df_2020=duplicated_values(df_2020)
+
+    #traitement du type : 
+    df_2020['code_departement'] = df_2020['code_departement'].astype('object')
+    df_2020['code_commune'] = df_2020['code_commune'].astype('object')
+    df_2020['nombre_lots'] = df_2020['nombre_lots'].astype('float64')
+    df_2020['latitude'] = pd.to_numeric(df_2020['latitude'])
+    df_2020['longitude'] = pd.to_numeric(df_2020['longitude'])
+    df_2020['lot1_numero'] = df_2020['lot1_numero'].astype('object')
+    df_2020['code_postal'] = df_2020['code_postal'].astype('object')
+    df_2020['code_type_local'] = df_2020['code_type_local'].astype('object')
+    df_2020['type_local'] = df_2020['type_local'].astype('object')
+    df_2020['nombre_pieces_principales'] = df_2020['nombre_pieces_principales'].astype(
+    'object')
 
     
