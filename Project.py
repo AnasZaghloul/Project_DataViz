@@ -414,7 +414,7 @@ elif option == "2019":
     st.markdown("Maintenant aprés la supression  :")
     st.write("- Des valeurs des colonnes à 75% valeurs NAN")
     st.write("- Des doublons")
-    st.write(df_2018.astype(object))
+    st.write(df_2019.astype(object))
     #to see the heatmap of the (%) values with NAN values :
     st.write("Heatmap NAN Values : ( before the transformation of our dataset")
 
