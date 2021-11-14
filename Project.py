@@ -168,7 +168,7 @@ if option == "2020":
     st.markdown("Valeur foncière ET Code Du Département :")
 
     #valeur foncière_ Code_departement:
-    transform_Codep_ValF(df_2020).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
+    ValeurF_CodeP(df_2020).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
     st.pyplot()
 
     
