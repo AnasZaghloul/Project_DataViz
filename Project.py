@@ -204,8 +204,7 @@ elif option == "2016":
     st.title("2. Data Traitment")
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
-    #df_2016=load_data(data_url_2020)
-    df_2016=pd.read_csv("full_2020_reduit.csv")[:10000]
+    df_2016=load_data(data_url_2016)
 
     st.write(df_2016.head(20))
     df_2016.head(5)
