@@ -29,6 +29,8 @@ st.text("I read the 2020 data set, I want to mention that I took 10 000 lines of
 
 data_url_2020 = 'https://jtellier.fr/DataViz/full_2020.csv'
 data_url_2016 = 'https://jtellier.fr/DataViz/full_2016.csv'
+data_url_2018 = 'https://jtellier.fr/DataViz/full_2018.csv'
+data_url_2019 = 'https://jtellier.fr/DataViz/full_2019.csv'
 
 
 def load_data(url):
@@ -73,7 +75,8 @@ def duplicated_values(df):
     st.write("\n")
     return df
 
-
+def corrmat(df):
+    return df.corr()
 
 ############# fonction pour le traitement des vizuels : 
 
@@ -96,8 +99,11 @@ def ValeurF_NombrePP(df):
     trans = trans.rename(columns={'valeur_fonciere': 'sum'})
     return trans
 
-# Type local = Maison (Real Estate) _ Code Departement
-#a ajouter
+#Surface _ Code Departement
+def transform_Codp_Surface(df):
+    nature = df.groupby('code_commune')['surface_terrain'].sum().reset_index().sort_values('surface_terrain', ascending=False).head(20)
+    nature = nature.rename(columns={'surface_terrain': 'sum'})
+    return nature
 
 ############################################################################################################
 
@@ -112,9 +118,7 @@ if option == "2020":
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
     df_2020=load_data(data_url_2020)
-    #df_2020=pd.read_csv("full_2020_reduit.csv")[:10000]
-    df_2020
-
+    
     st.write(df_2020.head(20))
     df_2020.head(5)
     st.header("2.2 - Cleaning The Database")
@@ -168,6 +172,28 @@ if option == "2020":
     ValeurF_CodeP(df_2020).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
     st.pyplot()
 
-    
+        
+    st.markdown("2 .Nature culture et valuer foncière :")
+
+
+    ValeurF_NatureC(df_2020).plot.bar(x="nature_culture", y="sum")
+    st.pyplot()
+
+
+    st.markdown("3 .Nature culture et valuer foncière :")
+    #Valeur Foncière _ Nb pièces
+    ValeurF_NombrePP(df_2020).plot.bar(x="nombre_pieces_principales", y="sum")
+    st.pyplot()
 
     
+    st.markdown("4 .code postal _ Surface :")
+    #code postal _ Surface :
+    transform_Codp_Surface(df_2020).plot.bar(x='code_commune', y='sum', color=['orange', 'green'])
+    st.pyplot()
+
+
+    #matrice corr : 
+    st.header("Matrice de corrélation : ")
+    sns.heatmap(corrmat(df_2020), vmax=.9, square=True) 
+    st.pyplot()
+    #MAP : 
