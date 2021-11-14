@@ -110,8 +110,8 @@ if option == "2020":
     st.title("2. Data Traitment")
     st.header("2.1 - Loading The Data")
     #loading the data using this methode
-    #df_2020=load_data(data_url_2020)
-    df_2020=pd.read_csv("full_2020_reduit.csv")[:10000]
+    df_2020=load_data(data_url_2020)
+    #df_2020=pd.read_csv("full_2020_reduit.csv")[:10000]
     df_2020
 
     st.write(df_2020.head(20))
