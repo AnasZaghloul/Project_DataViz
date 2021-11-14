@@ -111,7 +111,7 @@ def transform_Codp_Surface(df):
 
 option = st.sidebar.selectbox(
     "Choix de l'année",
-    ("2020", "2016"))
+    ("2020", "2019","2018","2016"))
 
 if option == "2020":
     st.title("2. Data Traitment")
@@ -372,3 +372,88 @@ elif option == "2018":
         sns.heatmap(corrmat(df_2018), vmax=.9, square=True) 
         st.pyplot()
         
+  ###2019 :
+
+elif option == "2019":
+    st.title("2. Data Traitment")
+    st.header("2.1 - Loading The Data")
+    #loading the data using this methode
+    df_2019=load_data(data_url_2019)
+
+    st.write(df_2019.head(20))
+    df_2019.head(5)
+    st.header("2.2 - Cleaning The Database")
+    st.markdown("Calculation of the percentage (%) of the NAN values in the Dataset")
+    
+    #to see the heatmap of the (%) values NAN :
+    st.write("Heatmap NAN Values : (before the transformation of our dataset)")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+
+    sns.heatmap(df_2019.isnull(), yticklabels = False, cbar = False)
+    st.pyplot()
+    st.write("\n")
+    st.write("the percentage (%) of the NAN values in the Dataset :")
+
+    droping_the_NAN(df_2019)
+    df_2019=drop_dataNA(df_2019)
+    st.write("\n")
+    df_2019=duplicated_values(df_2019)
+
+    #traitement du type : 
+    df_2019['code_postal'] = df_2019['code_postal'].astype('object')
+    df_2019['code_type_local'] = df_2019['code_type_local'].astype('object')
+    df_2019['type_local'] = df_2019['type_local'].astype('object')
+    df_2019['nombre_pieces_principales'] = df_2019['nombre_pieces_principales'].astype(
+    'object')
+    df_2019['code_departement'] = df_2019['code_departement'].astype('object')
+    df_2019['code_commune'] = df_2019['code_commune'].astype('object')
+    df_2019['nombre_lots'] = df_2019['nombre_lots'].astype('float64')
+    df_2019['latitude'] = pd.to_numeric(df_2019['latitude'])
+    df_2019['longitude'] = pd.to_numeric(df_2019['longitude'])
+
+    st.markdown("Maintenant aprés la supression  :")
+    st.write("- Des valeurs des colonnes à 75% valeurs NAN")
+    st.write("- Des doublons")
+    st.write(df_2018.astype(object))
+    #to see the heatmap of the (%) values with NAN values :
+    st.write("Heatmap NAN Values : ( before the transformation of our dataset")
+
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    sns.heatmap(df_2019.isnull(), yticklabels=False, cbar=False)
+    st.pyplot()
+
+    #partie traitement des données : 
+
+    st.title("Data Visualization")
+
+    st.markdown("1. Valeur foncière ET Code Du Département :")
+
+    #valeur foncière_ Code_departement:
+    ValeurF_CodeP(df_2019).plot.bar(x='code_departement', y='sum', color=['green', 'yellow'])
+    st.pyplot()
+
+    
+    st.markdown("2 .Nature culture et valuer foncière :")
+
+
+    ValeurF_NatureC(df_2019).plot.bar(x="nature_culture", y="sum")
+    st.pyplot()
+
+
+    st.markdown("3 .Nature culture et valuer foncière :")
+    #Valeur Foncière _ Nb pièces
+    ValeurF_NombrePP(df_2019).plot.bar(x="nombre_pieces_principales", y="sum")
+    st.pyplot()
+
+    
+
+    #code postal _ Surface :
+    transform_Codp_Surface(df_2019).plot.bar(x='code_commune', y='sum', color=['orange', 'green'])
+    st.pyplot()
+
+    if st.checkbox("Please click to see the corr matrice "):
+        #matrice corr : 
+        st.header("Matrice de corrélation : ")
+        sns.heatmap(corrmat(df_2019), vmax=.9, square=True) 
+        st.pyplot()
+
